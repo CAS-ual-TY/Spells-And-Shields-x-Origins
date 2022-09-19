@@ -1,0 +1,25 @@
+modLoader="javafml"
+loaderVersion="[43,)"
+license="MIT License"
+issueTrackerURL="https://github.com/CAS-ual-TY/Spells-And-Shields-x-Origins/issues"
+
+[[mods]]
+    modId="spells_and_shields_x_origins"
+    version="${file.jarVersion}"
+    displayName="Spells & Shields x Origins"
+    displayURL="https://github.com/CAS-ual-TY/Spells-And-Shields-x-Origins"
+    logoFile="logo.png"
+    credits="Mojang and the Minecraft Forge Team"
+    authors="CAS_ual_TY"
+    description='''Adds new requirements for spell learning involving the Origins mod. This mod does nothing by itself, it is meant for mod pack authors.'''
+
+[[dependencies.spells_and_shields_x_origins]]
+    modId="spells_and_shields"
+    mandatory=true
+    versionRange="[1.19.2-1.8.3,)"
+    side="BOTH"
+[[dependencies.spells_and_shields_x_origins]]
+    modId="origins"
+    mandatory=true
+    versionRange="[1.19.2-1.5.0.6,)"
+    side="BOTH"
