@@ -7,8 +7,8 @@ import de.cas_ual_ty.spells.requirement.Requirement;
 import de.cas_ual_ty.spells.util.SpellsFileUtil;
 import io.github.edwinmindcraft.origins.api.capabilities.IOriginContainer;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 
@@ -16,17 +16,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class OriginRequirement extends Requirement
 {
-    protected ResourceLocation origin;
+    protected ResourceLocation originRL;
     
-    public OriginRequirement(IRequirementType<?> type)
+    public OriginRequirement(IRequirementType.RequirementType type)
     {
         super(type);
     }
     
-    public OriginRequirement(IRequirementType<?> type, ResourceLocation origin)
+    public OriginRequirement(IRequirementType.RequirementType type, ResourceLocation originRL)
     {
         super(type);
-        this.origin = origin;
+        this.originRL = originRL;
     }
     
     @Override
@@ -35,9 +35,9 @@ public class OriginRequirement extends Requirement
         AtomicBoolean ret = new AtomicBoolean(false);
         
         IOriginContainer.get(spellProgressionHolder.getPlayer()).ifPresent((container) -> {
-            container.getOrigins().forEach((layerKey, originKey) ->
+            container.getOrigins().forEach((layer, origin) ->
             {
-                if(originKey != null && originKey.location().equals(origin))
+                if(origin != null && origin.getRegistryName().equals(originRL))
                 {
                     ret.set(true);
                 }
@@ -50,30 +50,30 @@ public class OriginRequirement extends Requirement
     @Override
     public MutableComponent makeDescription(SpellProgressionHolder spellProgressionHolder, ContainerLevelAccess containerLevelAccess)
     {
-        return Component.translatable(getDescriptionId(), Component.translatable("origin." + origin.getNamespace() + "." + origin.getPath() + ".name"));
+        return new TranslatableComponent(getDescriptionId(), new TranslatableComponent("origin." + originRL.getNamespace() + "." + originRL.getPath() + ".name"));
     }
     
     @Override
     public void writeToJson(JsonObject jsonObject)
     {
-        jsonObject.addProperty("origin", origin.toString());
+        jsonObject.addProperty("origin", originRL.toString());
     }
     
     @Override
     public void readFromJson(JsonObject jsonObject)
     {
-        origin = new ResourceLocation(SpellsFileUtil.jsonString(jsonObject, "origin"));
+        originRL = new ResourceLocation(SpellsFileUtil.jsonString(jsonObject, "origin"));
     }
     
     @Override
     public void writeToBuf(FriendlyByteBuf buf)
     {
-        buf.writeResourceLocation(origin);
+        buf.writeResourceLocation(originRL);
     }
     
     @Override
     public void readFromBuf(FriendlyByteBuf buf)
     {
-        origin = buf.readResourceLocation();
+        originRL = buf.readResourceLocation();
     }
 }

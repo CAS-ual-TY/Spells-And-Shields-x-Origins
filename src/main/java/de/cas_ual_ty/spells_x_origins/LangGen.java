@@ -4,9 +4,9 @@ import de.cas_ual_ty.spells.requirement.IRequirementType;
 import de.cas_ual_ty.spells.requirement.Requirement;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
-import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 
 import java.util.function.Supplier;
 
@@ -16,7 +16,7 @@ public class LangGen extends LanguageProvider
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event)
     {
-        event.getGenerator().addProvider(true, new LangGen(event.getGenerator(), "en_us"));
+        event.getGenerator().addProvider(new LangGen(event.getGenerator(), "en_us"));
     }
     
     public LangGen(DataGenerator gen, String locale)
@@ -31,12 +31,12 @@ public class LangGen extends LanguageProvider
         addRequirement(SpellsXOrigins.LAYER_REQUIREMENT, "%s: %s");
     }
     
-    public void addRequirement(Supplier<? extends IRequirementType<?>> requirement, String desc)
+    public void addRequirement(Supplier<? extends IRequirementType> requirement, String desc)
     {
         addRequirement(requirement, "", desc);
     }
     
-    public void addRequirement(Supplier<? extends IRequirementType<?>> requirement, String suffix, String desc)
+    public void addRequirement(Supplier<? extends IRequirementType> requirement, String suffix, String desc)
     {
         Requirement inst = requirement.get().makeInstance();
         String descriptionId = inst.getDescriptionId();
