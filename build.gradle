@@ -176,6 +176,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     implementation fg.deobf("curse.maven:spells-shields-582301:${spells_and_shields_file}")
+    implementation fg.deobf("curse.maven:caelus-308989:${caelus_file}")
     implementation fg.deobf("curse.maven:origins-474438:${origins_file}")
 }
 
