@@ -42,4 +42,10 @@ public class LangGen extends LanguageProvider
         String descriptionId = inst.getDescriptionId();
         add(descriptionId + suffix, desc);
     }
+    
+    @Override
+    public String getName()
+    {
+        return "Spells & Shields: The Power of Origins Lang File";
+    }
 }
