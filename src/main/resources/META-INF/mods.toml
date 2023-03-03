@@ -16,7 +16,7 @@ issueTrackerURL="https://github.com/CAS-ual-TY/Spells-And-Shields-x-Origins/issu
 [[dependencies.spells_and_shields_x_origins]]
     modId="spells_and_shields"
     mandatory=true
-    versionRange="[1.18.2-1.9,)"
+    versionRange="[1.18.2-1.10.0,1.18.2-2.0.0)"
     side="BOTH"
 [[dependencies.spells_and_shields_x_origins]]
     modId="origins"
