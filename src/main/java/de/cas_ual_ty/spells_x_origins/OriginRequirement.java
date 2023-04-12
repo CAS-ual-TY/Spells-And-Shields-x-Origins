@@ -1,10 +1,10 @@
 package de.cas_ual_ty.spells_x_origins;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import de.cas_ual_ty.spells.capability.SpellProgressionHolder;
-import de.cas_ual_ty.spells.requirement.IRequirementType;
 import de.cas_ual_ty.spells.requirement.Requirement;
-import de.cas_ual_ty.spells.util.SpellsFileUtil;
+import de.cas_ual_ty.spells.requirement.RequirementType;
 import io.github.edwinmindcraft.origins.api.capabilities.IOriginContainer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -16,17 +16,29 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class OriginRequirement extends Requirement
 {
+    public static Codec<OriginRequirement> makeCodec(RequirementType<OriginRequirement> type)
+    {
+        return RecordCodecBuilder.create(instance -> instance.group(
+                Codec.STRING.xmap(ResourceLocation::new, ResourceLocation::toString).fieldOf("origin").forGetter(OriginRequirement::getOrigin)
+        ).apply(instance, (origin) -> new OriginRequirement(type, origin)));
+    }
+    
     protected ResourceLocation origin;
     
-    public OriginRequirement(IRequirementType<?> type)
+    public OriginRequirement(RequirementType<?> type)
     {
         super(type);
     }
     
-    public OriginRequirement(IRequirementType<?> type, ResourceLocation origin)
+    public OriginRequirement(RequirementType<?> type, ResourceLocation origin)
     {
         super(type);
         this.origin = origin;
+    }
+    
+    public ResourceLocation getOrigin()
+    {
+        return origin;
     }
     
     @Override
@@ -51,18 +63,6 @@ public class OriginRequirement extends Requirement
     public MutableComponent makeDescription(SpellProgressionHolder spellProgressionHolder, ContainerLevelAccess containerLevelAccess)
     {
         return Component.translatable(getDescriptionId(), Component.translatable("origin." + origin.getNamespace() + "." + origin.getPath() + ".name"));
-    }
-    
-    @Override
-    public void writeToJson(JsonObject jsonObject)
-    {
-        jsonObject.addProperty("origin", origin.toString());
-    }
-    
-    @Override
-    public void readFromJson(JsonObject jsonObject)
-    {
-        origin = new ResourceLocation(SpellsFileUtil.jsonString(jsonObject, "origin"));
     }
     
     @Override

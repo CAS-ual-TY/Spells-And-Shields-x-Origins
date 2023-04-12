@@ -1,7 +1,7 @@
 package de.cas_ual_ty.spells_x_origins;
 
-import de.cas_ual_ty.spells.requirement.IRequirementType;
 import de.cas_ual_ty.spells.requirement.Requirement;
+import de.cas_ual_ty.spells.requirement.RequirementType;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -31,12 +31,12 @@ public class LangGen extends LanguageProvider
         addRequirement(SpellsXOrigins.LAYER_REQUIREMENT, "%s: %s");
     }
     
-    public void addRequirement(Supplier<? extends IRequirementType<?>> requirement, String desc)
+    public void addRequirement(Supplier<? extends RequirementType<?>> requirement, String desc)
     {
         addRequirement(requirement, "", desc);
     }
     
-    public void addRequirement(Supplier<? extends IRequirementType<?>> requirement, String suffix, String desc)
+    public void addRequirement(Supplier<? extends RequirementType<?>> requirement, String suffix, String desc)
     {
         Requirement inst = requirement.get().makeInstance();
         String descriptionId = inst.getDescriptionId();

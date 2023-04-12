@@ -1,10 +1,10 @@
 package de.cas_ual_ty.spells_x_origins;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import de.cas_ual_ty.spells.capability.SpellProgressionHolder;
-import de.cas_ual_ty.spells.requirement.IRequirementType;
 import de.cas_ual_ty.spells.requirement.Requirement;
-import de.cas_ual_ty.spells.util.SpellsFileUtil;
+import de.cas_ual_ty.spells.requirement.RequirementType;
 import io.github.edwinmindcraft.origins.api.capabilities.IOriginContainer;
 import io.github.edwinmindcraft.origins.api.origin.Origin;
 import io.github.edwinmindcraft.origins.api.origin.OriginLayer;
@@ -20,19 +20,37 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LayerRequirement extends Requirement
 {
+    public static Codec<LayerRequirement> makeCodec(RequirementType<LayerRequirement> type)
+    {
+        return RecordCodecBuilder.create(instance -> instance.group(
+                Codec.STRING.xmap(ResourceLocation::new, ResourceLocation::toString).fieldOf("layer").forGetter(LayerRequirement::getLayer),
+                Codec.STRING.xmap(ResourceLocation::new, ResourceLocation::toString).fieldOf("origin").forGetter(LayerRequirement::getOrigin)
+        ).apply(instance, (layer, origin) -> new LayerRequirement(type, layer, origin)));
+    }
+    
     protected ResourceLocation layer;
     protected ResourceLocation origin;
     
-    public LayerRequirement(IRequirementType<?> type)
+    public LayerRequirement(RequirementType<?> type)
     {
         super(type);
     }
     
-    public LayerRequirement(IRequirementType<?> type, ResourceLocation layer, ResourceLocation origin)
+    public LayerRequirement(RequirementType<?> type, ResourceLocation layer, ResourceLocation origin)
     {
         super(type);
         this.layer = layer;
         this.origin = origin;
+    }
+    
+    public ResourceLocation getLayer()
+    {
+        return layer;
+    }
+    
+    public ResourceLocation getOrigin()
+    {
+        return origin;
     }
     
     @Override
@@ -60,20 +78,6 @@ public class LayerRequirement extends Requirement
     public MutableComponent makeDescription(SpellProgressionHolder spellProgressionHolder, ContainerLevelAccess containerLevelAccess)
     {
         return Component.translatable(getDescriptionId(), Component.translatable("layer." + origin.getNamespace() + "." + origin.getPath() + ".name"), Component.translatable("origin." + origin.getNamespace() + "." + origin.getPath() + ".name"));
-    }
-    
-    @Override
-    public void writeToJson(JsonObject jsonObject)
-    {
-        jsonObject.addProperty("origin", origin.toString());
-        jsonObject.addProperty("layer", layer.toString());
-    }
-    
-    @Override
-    public void readFromJson(JsonObject jsonObject)
-    {
-        origin = new ResourceLocation(SpellsFileUtil.jsonString(jsonObject, "origin"));
-        layer = new ResourceLocation(SpellsFileUtil.jsonString(jsonObject, "layer"));
     }
     
     @Override
