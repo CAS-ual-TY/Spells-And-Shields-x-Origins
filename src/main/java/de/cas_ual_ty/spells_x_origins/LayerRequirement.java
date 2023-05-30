@@ -5,6 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import de.cas_ual_ty.spells.capability.SpellProgressionHolder;
 import de.cas_ual_ty.spells.requirement.Requirement;
 import de.cas_ual_ty.spells.requirement.RequirementType;
+import de.cas_ual_ty.spells.util.SpellsDowngrade;
+import io.github.edwinmindcraft.origins.api.OriginsAPI;
 import io.github.edwinmindcraft.origins.api.capabilities.IOriginContainer;
 import io.github.edwinmindcraft.origins.api.origin.Origin;
 import io.github.edwinmindcraft.origins.api.origin.OriginLayer;
@@ -57,27 +59,27 @@ public class LayerRequirement extends Requirement
     public boolean passes(SpellProgressionHolder spellProgressionHolder, ContainerLevelAccess containerLevelAccess)
     {
         AtomicBoolean ret = new AtomicBoolean(false);
-        
+    
         IOriginContainer.get(spellProgressionHolder.getPlayer()).ifPresent((container) -> {
-            ResourceKey<OriginLayer> layerKey = ResourceKey.create(OriginsDynamicRegistries.LAYERS_REGISTRY, layer);
-            if(container.hasOrigin(layerKey))
+            OriginLayer layer = OriginsAPI.getLayersRegistry().get(this.layer);
+            if(container.hasOrigin(layer))
             {
-                ResourceKey<Origin> originKey = container.getOrigin(layerKey);
-                
-                if(originKey != null && originKey.location().equals(origin))
+                Origin origin = container.getOrigin(layer);
+            
+                if(origin != null && origin.getRegistryName().equals(this.origin))
                 {
                     ret.set(true);
                 }
             }
         });
-        
+    
         return ret.get();
     }
     
     @Override
     public MutableComponent makeDescription(SpellProgressionHolder spellProgressionHolder, ContainerLevelAccess containerLevelAccess)
     {
-        return Component.translatable(getDescriptionId(), Component.translatable("layer." + origin.getNamespace() + "." + origin.getPath() + ".name"), Component.translatable("origin." + origin.getNamespace() + "." + origin.getPath() + ".name"));
+        return SpellsDowngrade.translatable(getDescriptionId(), SpellsDowngrade.translatable("layer." + origin.getNamespace() + "." + origin.getPath() + ".name"), SpellsDowngrade.translatable("origin." + origin.getNamespace() + "." + origin.getPath() + ".name"));
     }
     
     @Override

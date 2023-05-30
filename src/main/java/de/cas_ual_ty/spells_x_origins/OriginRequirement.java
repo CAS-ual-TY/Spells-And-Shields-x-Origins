@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import de.cas_ual_ty.spells.capability.SpellProgressionHolder;
 import de.cas_ual_ty.spells.requirement.Requirement;
 import de.cas_ual_ty.spells.requirement.RequirementType;
+import de.cas_ual_ty.spells.util.SpellsDowngrade;
 import io.github.edwinmindcraft.origins.api.capabilities.IOriginContainer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -49,7 +50,7 @@ public class OriginRequirement extends Requirement
         IOriginContainer.get(spellProgressionHolder.getPlayer()).ifPresent((container) -> {
             container.getOrigins().forEach((layerKey, originKey) ->
             {
-                if(originKey != null && originKey.location().equals(origin))
+                if(originKey != null && originKey.getRegistryName().equals(origin))
                 {
                     ret.set(true);
                 }
@@ -62,7 +63,7 @@ public class OriginRequirement extends Requirement
     @Override
     public MutableComponent makeDescription(SpellProgressionHolder spellProgressionHolder, ContainerLevelAccess containerLevelAccess)
     {
-        return Component.translatable(getDescriptionId(), Component.translatable("origin." + origin.getNamespace() + "." + origin.getPath() + ".name"));
+        return SpellsDowngrade.translatable(getDescriptionId(), SpellsDowngrade.translatable("origin." + origin.getNamespace() + "." + origin.getPath() + ".name"));
     }
     
     @Override

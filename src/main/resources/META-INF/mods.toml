@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[43,)"
+loaderVersion="[40,)"
 license="MIT License"
 issueTrackerURL="https://github.com/CAS-ual-TY/Spells-And-Shields-x-Origins/issues"
 
@@ -16,10 +16,10 @@ issueTrackerURL="https://github.com/CAS-ual-TY/Spells-And-Shields-x-Origins/issu
 [[dependencies.spells_and_shields_x_origins]]
     modId="spells_and_shields"
     mandatory=true
-    versionRange="[1.19.2-2.1.0,1.19.2-3.0.0)"
+    versionRange="[1.18.2-2.10.0,1.19.2-3.0.0)"
     side="BOTH"
 [[dependencies.spells_and_shields_x_origins]]
     modId="origins"
     mandatory=true
-    versionRange="[1.19.2-1.7.1.0,)"
+    versionRange="[1.18.2-1.5.0.1,)"
     side="BOTH"
