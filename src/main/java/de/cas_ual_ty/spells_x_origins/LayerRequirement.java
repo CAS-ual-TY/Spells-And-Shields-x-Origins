@@ -18,6 +18,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LayerRequirement extends Requirement
@@ -56,7 +57,7 @@ public class LayerRequirement extends Requirement
     }
     
     @Override
-    public boolean passes(SpellProgressionHolder spellProgressionHolder, ContainerLevelAccess containerLevelAccess)
+    protected boolean doesPlayerPass(SpellProgressionHolder spellProgressionHolder, ContainerLevelAccess containerLevelAccess)
     {
         AtomicBoolean ret = new AtomicBoolean(false);
     
@@ -77,9 +78,9 @@ public class LayerRequirement extends Requirement
     }
     
     @Override
-    public MutableComponent makeDescription(SpellProgressionHolder spellProgressionHolder, ContainerLevelAccess containerLevelAccess)
+    public void makeDescription(List<Component> tooltip, SpellProgressionHolder spellProgressionHolder, ContainerLevelAccess containerLevelAccess)
     {
-        return SpellsDowngrade.translatable(getDescriptionId(), SpellsDowngrade.translatable("layer." + origin.getNamespace() + "." + origin.getPath() + ".name"), SpellsDowngrade.translatable("origin." + origin.getNamespace() + "." + origin.getPath() + ".name"));
+        tooltip.add(SpellsDowngrade.translatable(getDescriptionId(), SpellsDowngrade.translatable("layer." + origin.getNamespace() + "." + origin.getPath() + ".name"), SpellsDowngrade.translatable("origin." + origin.getNamespace() + "." + origin.getPath() + ".name")));
     }
     
     @Override
