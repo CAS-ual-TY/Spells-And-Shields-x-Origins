@@ -1,22 +1,22 @@
 modLoader="javafml"
-loaderVersion="[43,)"
-license="MIT License"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
 issueTrackerURL="https://github.com/CAS-ual-TY/Spells-And-Shields-x-Origins/issues"
 
 [[mods]]
-    modId="spells_and_shields_x_origins"
-    version="${file.jarVersion}"
-    displayName="Spells & Shields: The Power of Origins"
-    displayURL="https://github.com/CAS-ual-TY/Spells-And-Shields-x-Origins"
+    modId="${mod_id}"
+    version="${mod_version}"
+    displayName="${mod_name}"
+    displayURL="https://change.me.to.your.mods.homepage.example.invalid/"
     logoFile="logo.png"
     credits="Mojang and the Minecraft Forge Team"
-    authors="CAS_ual_TY"
-    description='''Adding origin requirements to spell progression trees.'''
+    authors="${mod_authors}"
+    description='''${mod_description}'''
 
 [[dependencies.spells_and_shields_x_origins]]
     modId="spells_and_shields"
     mandatory=true
-    versionRange="[1.19.2-2.12.0,1.19.2-3.0.0)"
+    versionRange="[1.19.2-2.16.0,1.19.2-3.0.0)"
     side="BOTH"
 [[dependencies.spells_and_shields_x_origins]]
     modId="origins"
