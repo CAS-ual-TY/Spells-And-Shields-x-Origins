@@ -12,6 +12,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class OriginRequirement extends Requirement
@@ -42,7 +43,7 @@ public class OriginRequirement extends Requirement
     }
     
     @Override
-    public boolean passes(SpellProgressionHolder spellProgressionHolder, ContainerLevelAccess containerLevelAccess)
+    protected boolean doesPlayerPass(SpellProgressionHolder spellProgressionHolder, ContainerLevelAccess containerLevelAccess)
     {
         AtomicBoolean ret = new AtomicBoolean(false);
         
@@ -60,9 +61,9 @@ public class OriginRequirement extends Requirement
     }
     
     @Override
-    public MutableComponent makeDescription(SpellProgressionHolder spellProgressionHolder, ContainerLevelAccess containerLevelAccess)
+    public void makeDescription(List<Component> tooltip, SpellProgressionHolder spellProgressionHolder, ContainerLevelAccess access)
     {
-        return Component.translatable(getDescriptionId(), Component.translatable("origin." + origin.getNamespace() + "." + origin.getPath() + ".name"));
+        tooltip.add(Component.translatable(getDescriptionId(), Component.translatable("origin." + origin.getNamespace() + "." + origin.getPath() + ".name")));
     }
     
     @Override
