@@ -21,7 +21,7 @@ public class LangGen extends LanguageProvider
     
     public LangGen(DataGenerator gen, String locale)
     {
-        super(gen, SpellsXOrigins.MOD_ID, locale);
+        super(gen.getPackOutput(), SpellsXOrigins.MOD_ID, locale);
     }
     
     @Override
